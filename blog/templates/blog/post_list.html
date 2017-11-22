@@ -1,0 +1,58 @@
+        <form class="Auth" method="get" action="/blog/register">
+
+            <button type="submit">Sign Up</button>
+
+        </form>
+
+        <form class="Auth" method="get" action="/blog/login">
+
+            <button type="submit">Sign In</button>
+
+        </form>
+{% block content %}
+    {% for post in object_list %}
+        <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+        <p>{{ post.date }}</p>
+    {% empty %}
+    <p>Нет постов</p>
+    {% endfor %}
+<style>
+.Auth{
+
+}
+p {
+    text-align: center;
+}
+h2 {
+    text-align: center;
+}
+label{
+    position: relative;
+}
+.Form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+
+}
+
+</style>
+{% endblock %}
+        <form class="Form" action="/blog/posts/" method="post">
+
+            <label for="title">Title:</label>
+            <input id='title' maxlength="255" name="title" required>
+
+            <label for="message">Message:</label>
+            <textarea id='message' name="message" required></textarea>
+
+            <label for="author">Author:</label>
+            <input id='author' name="author" required>
+
+{#            <label for="date">Date:</label>#}
+{#            <input id='date' type="datetime-local" name="date" required>#}
+
+            <input type="submit" >
+        </form>
+

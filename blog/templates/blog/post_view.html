@@ -1,0 +1,37 @@
+{% block content %}
+        <p>{{ post.author }}</p>
+        <p>{{ post.date }}</p>
+        <p>{{ post.message }}</p>
+
+    {% for comment in object_list_com %}
+        <p>{{ comment.author }}</p>
+        <p>{{ comment.text }}</p>
+        <p>{{ comment.date }}</p>
+    {% endfor %}
+{% endblock %}
+<style>
+.Form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+
+}
+</style>
+
+        <form class="Form" action="{{ post.get_absolute_url }}/comments/" method="post">
+
+            <label for="author">Author:</label>
+            <input id='author' name="author" required>
+
+            <label for="text">Text:</label>
+            <textarea id='text' name="text" required></textarea>
+
+            <input type="submit" >
+        </form>
+
+        <form method="get" action="/blog/posts">
+
+            <button type="submit">Back</button>
+
+        </form>
