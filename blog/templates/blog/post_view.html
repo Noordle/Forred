@@ -1,12 +1,16 @@
 {% block content %}
+        <p>{{ post.message }}</p>
         <p>{{ post.author }}</p>
         <p>{{ post.date }}</p>
-        <p>{{ post.message }}</p>
+        <hr>
 
+    <p>Comments:</p>
     {% for comment in object_list_com %}
-        <p>{{ comment.author }}</p>
+        <hr>
         <p>{{ comment.text }}</p>
+        <p>{{ comment.author }}</p>
         <p>{{ comment.date }}</p>
+        <hr>
     {% endfor %}
 {% endblock %}
 <style>
@@ -21,8 +25,8 @@
 
         <form class="Form" action="{{ post.get_absolute_url }}/comments/" method="post">
 
-            <label for="author">Author:</label>
-            <input id='author' name="author" required>
+{#            <label for="author">Author:</label>#}
+{#            <input id='author' name="author" required>#}
 
             <label for="text">Text:</label>
             <textarea id='text' name="text" required></textarea>

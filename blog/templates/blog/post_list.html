@@ -1,24 +1,50 @@
-        <form class="Auth" method="get" action="/blog/register">
+{% block authentication %}
+    {% if not user.is_authenticated %}
+       <div class="Auth">
 
-            <button type="submit">Sign Up:</button>
+            <form method="get" action="/blog/register">
+
+                <button type="submit">Sign Up</button>
+
+            </form>
+            <span>&#47;</span>
+            <form method="get" action="/blog/login">
+
+                <button type="submit">Sign In</button>
+
+            </form>
+
+        </div>
+
+    {% else %}
+       <p class="Log">
+       Вы вошли как: {{ user.username }}
+       </p>
+
+        <form class="Log" method="get" action="/blog/logout">
+
+            <button type="submit">Logout</button>
 
         </form>
+    {% endif %}
 
-        <form class="Auth" method="get" action="/blog/login">
-
-            <button type="submit">Sign In</button>
-
-        </form>
+{% endblock %}
 {% block content %}
+    <h2>Posts:</h2>
     {% for post in object_list %}
         <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
         <p>{{ post.date }}</p>
+        <hr>
     {% empty %}
     <p>Нет постов</p>
     {% endfor %}
 <style>
+.Log{
+    text-align: right;
+}
 .Auth{
-
+    display: flex;
+    flex-direction: row-reverse;
 }
 p {
     text-align: center;
@@ -36,7 +62,10 @@ label{
     align-items: baseline;
 
 }
+span {
+    content: "\002F";
 
+}
 </style>
 {% endblock %}
         <form class="Form" action="/blog/posts/" method="post">
@@ -47,8 +76,8 @@ label{
             <label for="message">Message:</label>
             <textarea id='message' name="message" required></textarea>
 
-            <label for="author">Author:</label>
-            <input id='author' name="author" required>
+{#            <label for="author">Author:</label>#}
+{#            <input id='author' name="author" required>#}
 
 {#            <label for="date">Date:</label>#}
 {#            <input id='date' type="datetime-local" name="date" required>#}

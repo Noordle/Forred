@@ -8,6 +8,8 @@ urlpatterns = [
     url(r'^posts/$', add, name='add'),
     url(r'^register/$', RegisterFormView.as_view()),
     url(r'^login/$', LoginFormView.as_view()),
+    url(r'^logout/$', LogoutView.as_view()),
+
     url(r'^$', post_all, name='list'),
 
 ]
