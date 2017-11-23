@@ -2,10 +2,20 @@
         <p>{{ post.message }}</p>
         <p>{{ post.author }}</p>
         <p>{{ post.date }}</p>
-        <form method="delete" name="delete" action="/blog/posts">
-            <button type="submit" value="Delete">Delete post</button>
-        </form>
-        <hr>
+        <button onclick="Delpost()">Delete</button>
+        <script>
+            function Delpost() {
+                var http = new XMLHttpRequest();
+                http.open('DELETE', '{{ post.get_absolute_url }}/', true);
+                http.send();
+                location.href = "/blog/posts"
+            }
+        </script>
+{#        <form action="{{ post.get_absolute_url }}/" method="post">#}
+{#          <button type="submit" name="Delete" value="{{ post }}">Delete</button>#}
+{#        </form>#}
+    <hr>
+
 
     <p>Comments:</p>
     {% for comment in object_list_com %}

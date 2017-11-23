@@ -18,11 +18,17 @@ def post_all(request):
 
 
 def post_view(request, post_id):
-    post = Post.objects.get(id=post_id)
-    object_list_com = Comment.objects.filter(post=post)
-    template = loader.get_template('blog/post_view.html')
-    context = {'object_list_com': object_list_com, 'post': post}
-    return HttpResponse(template.render(context))
+    if request.method == 'DELETE':
+        Post.objects.get(id=post_id).delete()
+        return HttpResponseRedirect("/blog/posts/")
+    elif request.method == "GET":
+        post = Post.objects.get(id=post_id)
+        object_list_com = Comment.objects.filter(post=post)
+        template = loader.get_template('blog/post_view.html')
+        context = {'object_list_com': object_list_com, 'post': post}
+        return HttpResponse(template.render(context))
+    elif request.method == 'POST':
+        pass
 
 
 def add(request):
@@ -41,9 +47,6 @@ def add_com(request, post_id):
         date = datetime.datetime.now()
         post = Post.objects.get(id=post_id)
         Comment.objects.create(author=author, text=text, date=date, post=post)
-    elif request.method == "DELETE":
-        Post.objects.get(id=post_id).delete()
-        return HttpResponseRedirect("/blog/")
     return HttpResponseRedirect(Post.get_absolute_url(post))
 
 
