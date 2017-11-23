@@ -2,6 +2,9 @@
         <p>{{ post.message }}</p>
         <p>{{ post.author }}</p>
         <p>{{ post.date }}</p>
+        <form method="delete" name="delete" action="/blog/posts">
+            <button type="submit" value="Delete">Delete post</button>
+        </form>
         <hr>
 
     <p>Comments:</p>

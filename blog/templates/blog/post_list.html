@@ -1,39 +1,34 @@
 {% block authentication %}
     {% if not user.is_authenticated %}
        <div class="Auth">
-
             <form method="get" action="/blog/register">
-
                 <button type="submit">Sign Up</button>
-
             </form>
+
             <span>&#47;</span>
+
             <form method="get" action="/blog/login">
-
                 <button type="submit">Sign In</button>
-
             </form>
-
         </div>
-
     {% else %}
        <p class="Log">
        Вы вошли как: {{ user.username }}
        </p>
-
         <form class="Log" method="get" action="/blog/logout">
-
             <button type="submit">Logout</button>
-
         </form>
     {% endif %}
-
 {% endblock %}
+
 {% block content %}
     <h2>Posts:</h2>
     {% for post in object_list %}
         <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
         <p>{{ post.date }}</p>
+{#        <form method="delete" action="/blog/posts">#}
+{#            <a href="/blog/posts">Delete post</a>#}
+{#        </form>#}
         <hr>
     {% empty %}
     <p>Нет постов</p>
