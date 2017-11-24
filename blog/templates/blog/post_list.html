@@ -26,13 +26,11 @@
     {% for post in object_list %}
         <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
         <p>{{ post.date }}</p>
-{#        <form method="delete" action="/blog/posts">#}
-{#            <a href="/blog/posts">Delete post</a>#}
-{#        </form>#}
         <hr>
     {% empty %}
     <p>Нет постов</p>
     {% endfor %}
+
 <style>
 .Log{
     text-align: right;
@@ -59,10 +57,9 @@ label{
 }
 span {
     content: "\002F";
-
 }
 </style>
-{% endblock %}
+    {% if user.is_authenticated %}
         <form class="Form" action="/blog/posts/" method="post">
 
             <label for="title">Title:</label>
@@ -71,12 +68,9 @@ span {
             <label for="message">Message:</label>
             <textarea id='message' name="message" required></textarea>
 
-{#            <label for="author">Author:</label>#}
-{#            <input id='author' name="author" required>#}
-
-{#            <label for="date">Date:</label>#}
-{#            <input id='date' type="datetime-local" name="date" required>#}
-
             <input type="submit" >
         </form>
-
+    {% else %}
+        <p>Пожалуйста <a href="/blog/register">зарегистрируйтесь</a> или <a href="/blog/login">войдите</a> в Вашу учетную запись</p>
+    {% endif %}
+{% endblock %}

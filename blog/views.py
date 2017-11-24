@@ -25,11 +25,14 @@ def post_view(request, post_id):
         post = Post.objects.get(id=post_id)
         object_list_com = Comment.objects.filter(post=post)
         template = loader.get_template('blog/post_view.html')
-        context = {'object_list_com': object_list_com, 'post': post}
+        context = {'object_list_com': object_list_com, 'post': post, 'user': request.user}
         return HttpResponse(template.render(context))
-    elif request.method == 'POST':
-        pass
-
+    elif request.method == 'PUT':
+        # message_value = json.loads(request.body)
+        # message = request.PUT.get(request.body)
+        post = Post.objects.get(id=post_id)
+        post.message = request.body
+        return HttpResponseRedirect(post.get_absolute_url()+'/')
 
 def add(request):
     if request.method == "POST":
@@ -47,7 +50,7 @@ def add_com(request, post_id):
         date = datetime.datetime.now()
         post = Post.objects.get(id=post_id)
         Comment.objects.create(author=author, text=text, date=date, post=post)
-    return HttpResponseRedirect(Post.get_absolute_url(post))
+    return HttpResponseRedirect(post.get_absolute_url())
 
 
 class LoginFormView(FormView):

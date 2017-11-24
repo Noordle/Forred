@@ -1,54 +1,66 @@
 {% block content %}
-        <p>{{ post.message }}</p>
-        <p>{{ post.author }}</p>
-        <p>{{ post.date }}</p>
-        <button onclick="Delpost()">Delete</button>
-        <script>
-            function Delpost() {
-                var http = new XMLHttpRequest();
-                http.open('DELETE', '{{ post.get_absolute_url }}/', true);
-                http.send();
-                location.href = "/blog/posts"
-            }
-        </script>
-{#        <form action="{{ post.get_absolute_url }}/" method="post">#}
-{#          <button type="submit" name="Delete" value="{{ post }}">Delete</button>#}
-{#        </form>#}
-    <hr>
+    <p>{{ post.message }}</p>
+    <p>{{ post.author }}</p>
+    <p>{{ post.date }}</p>
+    {% if user.is_authenticated %}
+         {% if user == post.author %}
+              <label class="Form" for="message">
+                  <input name="message" id="message" type="text" value="{{ post.message }}" required>
+                  <input type="button" value="Edit" onclick="Change()">
+              </label>
+              <script>
+                  function Change() {
+                      var http = new XMLHttpRequest();
+                      var message_value = document.getElementById('message').value;
+                      http.open('PUT', '{{ post.get_absolute_url }}/', true);
+                      http.send(message_value);
+{#                      debugger;#}
+                      location.href= "{{ post.get_absolute_url }}/";
+                  }
+              </script>
+              <br>
+              <button onclick="Delpost()">Delete</button>
+              <script>
+                  function Delpost() {
+                      var http = new XMLHttpRequest();
+                      http.open('DELETE', '{{ post.get_absolute_url }}/', true);
+                      http.send();
+                      location.href = "/blog/posts"
+                  }
+              </script>
+              <hr>
+         {% endif %}
 
+         <p>Comments:</p>
+         {% for comment in object_list_com %}
+              <hr>
+              <p>{{ comment.text }}</p>
+              <p>{{ comment.author }}</p>
+              <p>{{ comment.date }}</p>
+              <hr>
+         {% endfor %}
 
-    <p>Comments:</p>
-    {% for comment in object_list_com %}
-        <hr>
-        <p>{{ comment.text }}</p>
-        <p>{{ comment.author }}</p>
-        <p>{{ comment.date }}</p>
-        <hr>
-    {% endfor %}
+         <form class="Form" action="{{ post.get_absolute_url }}/comments/" method="post">
+
+              <label for="text">Text:</label>
+              <textarea id='text' name="text" required></textarea>
+              <input type="submit" >
+
+         </form>
+
+         <form method="get" action="/blog/posts">
+
+              <button type="submit">Back</button>
+
+         </form>
+
+         <style>
+         .Form{
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              align-items: baseline;
+         }
+         </style>
+    {% endif %}
 {% endblock %}
-<style>
-.Form{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: baseline;
-
-}
-</style>
-
-        <form class="Form" action="{{ post.get_absolute_url }}/comments/" method="post">
-
-{#            <label for="author">Author:</label>#}
-{#            <input id='author' name="author" required>#}
-
-            <label for="text">Text:</label>
-            <textarea id='text' name="text" required></textarea>
-
-            <input type="submit" >
-        </form>
-
-        <form method="get" action="/blog/posts">
-
-            <button type="submit">Back</button>
-
-        </form>
