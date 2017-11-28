@@ -72,5 +72,15 @@ span {
         </form>
     {% else %}
         <p>Пожалуйста <a href="/blog/register">зарегистрируйтесь</a> или <a href="/blog/login">войдите</a> в Вашу учетную запись</p>
+        <table>
+            <tr>
+                {% for user in request.user %}
+                    {{ post.author }} : {{ count_post }}
+                {% endfor %}
+            </tr>
+        </table>
     {% endif %}
+
+
+
 {% endblock %}

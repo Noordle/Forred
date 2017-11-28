@@ -4,19 +4,18 @@
     <p>{{ post.date }}</p>
     {% if user.is_authenticated %}
          {% if user == post.author %}
-              <label class="Form" for="message">
-                  <input name="message" id="message" type="text" value="{{ post.message }}" required>
+              <label class="Form" for="message_izm">
+                  <input id="message_izm" type="text" value="{{ post.message }}" required>
                   <input type="button" value="Edit" onclick="Change()">
               </label>
               <script>
-                  function Change() {
-                      var http = new XMLHttpRequest();
-                      var message_value = document.getElementById('message').value;
-                      http.open('PUT', '{{ post.get_absolute_url }}/', true);
-                      http.send(message_value);
-{#                      debugger;#}
-                      location.href= "{{ post.get_absolute_url }}/";
-                  }
+                    function Change() {
+                        var message_value = document.getElementById('message_izm').value;
+                        var http = new XMLHttpRequest();
+                        http.open('PUT', '{{ post.get_absolute_url }}/', true);
+                        http.send(JSON.stringify({message_izm: message_value}));
+                        location.href = "{{ post.get_absolute_url }}/"
+                    }
               </script>
               <br>
               <button onclick="Delpost()">Delete</button>
